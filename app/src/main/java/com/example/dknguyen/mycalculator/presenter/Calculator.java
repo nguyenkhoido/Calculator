@@ -58,6 +58,11 @@ public class Calculator {
         return Utils.stringToDouble(getDisplayedValue());
     }
 
+    private void updateResult(double value) {
+        setValue(Utils.doubleToString(value));
+        mSecondValue = value;
+    }
+
     private String formatString(String str) {
         if (str.contains("."))
             return str;
@@ -94,8 +99,7 @@ public class Calculator {
         switch (id) {
             case R.id.btnReset:
                 mResetValue = true;
-                clear();
-                setValue(mDisplayedValue);
+                reset();
                 break;
             case R.id.btnDecimal:
                 decimalClicked();
@@ -158,7 +162,7 @@ public class Calculator {
         mPlusOperation = new PlusOperation(mFirstValue, mSecondValue);
         if (mPlusOperation != null) {
             mDisplayedValue = Utils.doubleToString(mPlusOperation.getResult());
-            updateFormula();
+            updateResult(mPlusOperation.getResult());
         }
     }
 
@@ -191,7 +195,11 @@ public class Calculator {
         if (!mIsFirstOperation) {
             updateFormula();
         }
-        plusOperation();
+        switch (mLastOperation) {
+            case Constant.PLUS:
+                plusOperation();
+                break;
+        }
         mIsFirstOperation = false;
     }
 
@@ -200,5 +208,11 @@ public class Calculator {
             mDisplayedValue = "0";
         }
         mResetValue = false;
+    }
+
+    public void reset() {
+        resetValues();
+        setValue("0");
+        setResult("");
     }
 }

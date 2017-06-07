@@ -1,4 +1,4 @@
-package com.example.dknguyen.mycalculator.presenter;
+package com.example.dknguyen.mycalculator.model;
 
 import com.example.dknguyen.mycalculator.utils.Utils;
 

@@ -22,5 +22,5 @@
     <string name="decimal">.</string>
     <string name="equals">=</string>
     <string name="plus">+</string>
-
+    <string name="divide_alert">Cannot divide by zero!</string>
 </resources>

@@ -16,8 +16,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, CalculatorInterface {
+    @BindView(R.id.btnEquals)
+    Button btnEqual;
     @BindView(R.id.btnPlus)
     Button btnPlus;
+    @BindView(R.id.btnMinus)
+    Button btnMinus;
+    @BindView(R.id.btnMultiply)
+    Button btnMultiply;
+    @BindView(R.id.btnDivide)
+    Button btnDivide;
     @BindView(R.id.btnClear)
     Button btnClear;
     @BindView(R.id.btnReset)
@@ -56,6 +64,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         Utils.setOnclick(btnClear, this);
         Utils.setOnclick(btnDecimal, this);
         Utils.setOnclick(btnPlus, this);
+        Utils.setOnclick(btnMinus, this);
+        Utils.setOnclick(btnMultiply, this);
+        Utils.setOnclick(btnDivide, this);
+        Utils.setOnclick(btnEqual, this);
         Utils.setOnclick(btn0, this);
         Utils.setOnclick(btn1, this);
         Utils.setOnclick(btn2, this);
@@ -74,7 +86,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        mCalculator = new Calculator(this);
+        mCalculator = new Calculator(this,this);
         mCalculator.getDisplayedValue();
         initOnClick();
     }
@@ -101,6 +113,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.btnPlus:
                 mCalculator.handleOperation(Constant.PLUS);
+                break;
+            case R.id.btnMinus:
+                mCalculator.handleOperation(Constant.MINUS);
+                break;
+            case R.id.btnMultiply:
+                mCalculator.handleOperation(Constant.MULTIPLY);
+                break;
+            case R.id.btnDivide:
+                mCalculator.handleOperation(Constant.DIVIDE);
+                break;
+            case R.id.btnEquals:
+                mCalculator.handleEqual();
+                break;
             default:
                 break;
 

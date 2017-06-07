@@ -1,7 +1,11 @@
 package com.example.dknguyen.mycalculator.utils;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.dknguyen.mycalculator.R;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -54,5 +58,7 @@ public class Utils {
         return Double.parseDouble(str);
     }
 
-
+    public static void createToast(Context mContext) {
+        Toast.makeText(mContext, mContext.getString(R.string.divide_alert), Toast.LENGTH_SHORT).show();
+    }
 }

@@ -1,9 +1,13 @@
 package com.example.dknguyen.mycalculator.presenter;
 
-import android.text.format.Formatter;
+import android.content.Context;
 
 import com.example.dknguyen.mycalculator.R;
 import com.example.dknguyen.mycalculator.constant.Constant;
+import com.example.dknguyen.mycalculator.model.DivideOperation;
+import com.example.dknguyen.mycalculator.model.MinusOperation;
+import com.example.dknguyen.mycalculator.model.MultipleOperation;
+import com.example.dknguyen.mycalculator.model.PlusOperation;
 import com.example.dknguyen.mycalculator.utils.Utils;
 
 /**
@@ -12,18 +16,28 @@ import com.example.dknguyen.mycalculator.utils.Utils;
 
 public class Calculator {
     private CalculatorInterface mCalculatorInterface;
+
     private PlusOperation mPlusOperation;
+    private MinusOperation mMinusOperation;
+    private MultipleOperation mMultipleOperation;
+    private DivideOperation mDivideOperation;
+
+    private Context mContext;
+
     private String mDisplayedValue;
     private String mDisplayedFormula;
     private String mLastKey;
     private String mLastOperation;
+
     private boolean mResetValue;
     private boolean mIsFirstOperation;
+
     private double mFirstValue;
     private double mSecondValue;
 
-    public Calculator(CalculatorInterface calculatorInterface) {
+    public Calculator(CalculatorInterface calculatorInterface, Context mContext) {
         mCalculatorInterface = calculatorInterface;
+        this.mContext = mContext;
         resetValues();
         setValue("0");
         setResult("");
@@ -60,7 +74,7 @@ public class Calculator {
 
     private void updateResult(double value) {
         setValue(Utils.doubleToString(value));
-        mSecondValue = value;
+        mFirstValue = value;
     }
 
     private String formatString(String str) {
@@ -99,7 +113,7 @@ public class Calculator {
         switch (id) {
             case R.id.btnReset:
                 mResetValue = true;
-                reset();
+                allClear();
                 break;
             case R.id.btnDecimal:
                 decimalClicked();
@@ -142,9 +156,8 @@ public class Calculator {
     //Display formula on screen
     private void updateFormula() {
         String firstValue = Utils.doubleToString(mFirstValue);
-        String operation = getOperation(mLastOperation);
         String secondValue = Utils.doubleToString(mSecondValue);
-
+        String operation = getOperation(mLastOperation);
         setResult(firstValue + operation + secondValue);
     }
 
@@ -152,6 +165,13 @@ public class Calculator {
         switch (operation) {
             case Constant.PLUS:
                 return "+";
+            case Constant.MINUS:
+                return "-";
+            case Constant.DIVIDE:
+                return "/";
+            case Constant.MULTIPLY:
+                return "*";
+
 
         }
         return "";
@@ -166,13 +186,41 @@ public class Calculator {
         }
     }
 
-    public void miniusOperation() {
+    public void minusOperation() {
+        mMinusOperation = new MinusOperation(mFirstValue, mSecondValue);
+        if (mMinusOperation != null) {
+            mDisplayedValue = Utils.doubleToString(mMinusOperation.getResult());
+            updateResult(mMinusOperation.getResult());
+        }
+
     }
 
     public void multipleOperation() {
+        mMultipleOperation = new MultipleOperation(mFirstValue, mSecondValue);
+        if (mMultipleOperation != null) {
+            mDisplayedValue = Utils.doubleToString(mMultipleOperation.getResult());
+            updateResult(mMultipleOperation.getResult());
+        }
     }
 
     public void divideOperation() {
+        mDivideOperation = new DivideOperation(mFirstValue, mSecondValue, mContext);
+        if (mMultipleOperation != null) {
+            mDisplayedValue = Utils.doubleToString(mDivideOperation.getResult());
+            updateResult(mDivideOperation.getResult());
+        }
+    }
+
+    public void handleEqual() {
+        if (mLastKey.equals(Constant.EQUALS))
+            calculateResult();
+
+        if (!mLastKey.equals(Constant.DIGIT))
+            return;
+
+        mSecondValue = getDisplayedValueAsDouble();
+        calculateResult();
+        mLastKey = Constant.EQUALS;
     }
 
     //Operation logic end.
@@ -186,9 +234,9 @@ public class Calculator {
     }
 
     private void handleResult() {
-        mFirstValue = getDisplayedValueAsDouble();
-        calculateResult();
         mSecondValue = getDisplayedValueAsDouble();
+        calculateResult();
+        mFirstValue = getDisplayedValueAsDouble();
     }
 
     public void calculateResult() {
@@ -198,6 +246,15 @@ public class Calculator {
         switch (mLastOperation) {
             case Constant.PLUS:
                 plusOperation();
+                break;
+            case Constant.MINUS:
+                minusOperation();
+                break;
+            case Constant.MULTIPLY:
+                multipleOperation();
+                break;
+            case Constant.DIVIDE:
+                divideOperation();
                 break;
         }
         mIsFirstOperation = false;
@@ -210,7 +267,7 @@ public class Calculator {
         mResetValue = false;
     }
 
-    public void reset() {
+    public void allClear() {
         resetValues();
         setValue("0");
         setResult("");

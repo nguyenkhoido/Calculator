@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.example.dknguyen.mycalculator.view.HomeActivity">
+        tools:context="com.example.dknguyen.mycalculator.view.activity.HomeActivity">
 
         <TextView
             android:id="@+id/formula"

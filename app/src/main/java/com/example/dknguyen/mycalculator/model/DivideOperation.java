@@ -12,20 +12,18 @@ public class DivideOperation {
 
     private double mCurrentValue;
     private double mNewValue;
-    private Context mContext;
 
-    public DivideOperation(double mCurrentValue, double mNewValue, Context mContext) {
+    public DivideOperation(double mCurrentValue, double mNewValue) {
         this.mCurrentValue = mCurrentValue;
         this.mNewValue = mNewValue;
-        this.mContext = mContext;
     }
 
-    public double getResult() {
-        double result = 0;
+    public String getResult() {
+        String result;
         if (mNewValue != 0)
-            result = mCurrentValue / mNewValue;
+            result = Utils.doubleToString(mCurrentValue / mNewValue);
         else
-            Utils.createToast(mContext);
+            return "N/A";
         return result;
     }
 }

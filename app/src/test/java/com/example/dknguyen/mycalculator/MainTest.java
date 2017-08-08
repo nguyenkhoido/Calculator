@@ -1,6 +1,6 @@
 package com.example.dknguyen.mycalculator;
 
-import com.example.dknguyen.mycalculator.view.HomeActivity;
+import com.example.dknguyen.mycalculator.view.activity.HomeActivity;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

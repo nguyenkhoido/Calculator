@@ -7,7 +7,11 @@ package com.example.dknguyen.mycalculator.presenter;
 public interface CalculatorInterface {
     //Display current digit
     void setValue(String value);
+
     //Display result after calculated
     void setResult(String value);
+
+    //Get error code
+    void getErrorCode(boolean isFailed);
 
 }

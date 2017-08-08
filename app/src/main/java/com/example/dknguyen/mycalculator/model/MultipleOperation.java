@@ -14,9 +14,8 @@ public class MultipleOperation {
     }
 
     public double getResult() {
-        double result = 0;
-        if (mNewValue != 0)
-            result = mCurrentValue * mNewValue;
+        double result;
+        result = mCurrentValue * mNewValue;
         return result;
     }
 }

@@ -22,8 +22,6 @@ public class Calculator {
     private MultipleOperation mMultipleOperation;
     private DivideOperation mDivideOperation;
 
-    private Context mContext;
-
     private String mDisplayedValue;
     private String mDisplayedFormula;
     private String mLastKey;
@@ -35,9 +33,8 @@ public class Calculator {
     private double mFirstValue;
     private double mSecondValue;
 
-    public Calculator(CalculatorInterface calculatorInterface, Context mContext) {
+    public Calculator(CalculatorInterface calculatorInterface) {
         mCalculatorInterface = calculatorInterface;
-        this.mContext = mContext;
         resetValues();
         setValue("0");
         setResult("");
@@ -52,6 +49,10 @@ public class Calculator {
         mDisplayedValue = "";
         mDisplayedFormula = "";
         mIsFirstOperation = true;
+    }
+
+    private void getError(boolean isFailed) {
+        mCalculatorInterface.getErrorCode(isFailed);
     }
 
     private void setValue(String value) {
@@ -75,6 +76,11 @@ public class Calculator {
     private void updateResult(double value) {
         setValue(Utils.doubleToString(value));
         mFirstValue = value;
+    }
+
+    private void updateResult(String value) {
+        setValue(value);
+        mFirstValue = Utils.stringToDouble(value);
     }
 
     private String formatString(String str) {
@@ -204,9 +210,12 @@ public class Calculator {
     }
 
     public void divideOperation() {
-        mDivideOperation = new DivideOperation(mFirstValue, mSecondValue, mContext);
+        mDivideOperation = new DivideOperation(mFirstValue, mSecondValue);
+        if (mSecondValue == 0) {
+            getError(true);
+        }
         if (mMultipleOperation != null) {
-            mDisplayedValue = Utils.doubleToString(mDivideOperation.getResult());
+            mDisplayedValue = mDivideOperation.getResult();
             updateResult(mDivideOperation.getResult());
         }
     }
@@ -272,4 +281,5 @@ public class Calculator {
         setValue("0");
         setResult("");
     }
+
 }

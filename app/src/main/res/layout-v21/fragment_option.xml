@@ -7,12 +7,15 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:src="@mipmap/bg_1"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:layout_height="match_parent" />
+        android:src="@mipmap/bg_1" />
 
     <Button
+        android:id="@+id/btn_Notification"
+        style="@android:style/Theme.Material"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Notification" />
 
 </FrameLayout>

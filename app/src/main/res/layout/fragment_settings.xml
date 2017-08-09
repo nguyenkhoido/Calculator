@@ -4,9 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_Item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/bg_2" />
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>
